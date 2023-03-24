@@ -1,0 +1,1847 @@
+openapi: 3.0.0
+info:
+  title: FINE - A Framework for Integrated Energy System Assessment
+  description: The FINE python package provides a framework for modeling, optimizing
+    and assessing energy systems. With the provided framework, systems with multiple
+    regions, commodities and time steps can be modeled. Target of the optimization
+    is the minimization of the total annual cost while considering technical and environmental
+    constraints. Besides using the full temporal resolution, an interconnected typical
+    period storage formulation can be applied, that reduces the complexity and computational
+    time of the model.
+  contact:
+    email: ''
+    name: ' '
+    url: ''
+    x-affiliation: ''
+  license:
+    name: MIT License, Copyright (C) 2016-2022 FZJ-IEK-3
+  version: 2.2.2
+  x-dev-status: active
+  x-download-url: https://github.com/FZJ-IEK3-VSA/FINE/releases/tag/v2.2.2
+  x-first-release: '2018-11-12'
+  x-funding: This work was supported by the Helmholtz Association under the Joint
+    Initiative "Energy System 2050 A Contribution of the Research Field Energy".
+  x-programming-lang: Python
+  x-reference-pub: 'Welder, Lara, et al. "Spatio-temporal optimization of a future
+    energy system for power-to-hydrogen applications in Germany." Energy 158 (2018):
+    1130-1149.'
+  x-related-links: https://vsa-fine.readthedocs.io/en/master/#
+  x-release-notes: "FINE release (2.2.2) provides new major functionalities:\n\n \
+    \   Add netCDF compatibility for import and export of EnergySystemModel instances\
+    \ to store input and output data.\n    Add generic spatial aggregation and technology\
+    \ aggregation functions for complexity reduction of models with high spatial resolution\n\
+    \nBlack autoformatting was applied to make the source code easier to read and\
+    \ to simplify contributions.\nAdditionally, the installation guide was revised\
+    \ to make the installation easier to handle."
+  x-repository: https://github.com/FZJ-IEK3-VSA/FINE
+paths: {}
+components:
+  schemas:
+    Component:
+      description: The Component class includes the general methods and arguments
+        for the components which are add-able to
+      properties:
+        QPcostScale:
+          anyOf:
+          - type: number
+          - properties:
+              x-type:
+                format: pandas.core.series.Series
+                type: string
+            required:
+            - x-type
+            type: object
+          - properties:
+              x-type:
+                format: pandas.core.frame.DataFrame
+                type: string
+            required:
+            - x-type
+            type: object
+          x-MinimumValue: 0
+        bigM:
+          type: number
+          x-MinimumValue: 0
+        capacityFix:
+          anyOf:
+          - properties:
+              x-type:
+                format: pandas.core.series.Series
+                type: string
+            required:
+            - x-type
+            type: object
+          - properties:
+              x-type:
+                format: pandas.core.frame.DataFrame
+                type: string
+            required:
+            - x-type
+            type: object
+        capacityMax:
+          anyOf:
+          - properties:
+              x-type:
+                format: pandas.core.series.Series
+                type: string
+            required:
+            - x-type
+            type: object
+          - properties:
+              x-type:
+                format: pandas.core.frame.DataFrame
+                type: string
+            required:
+            - x-type
+            type: object
+          x-dimensions: &id001
+            location:
+              item_MinimumValue: 0
+              unit_type: spatial
+            time:
+              item_MinimumValue: 0
+              unit_type: temporal
+        capacityMin:
+          anyOf:
+          - properties:
+              x-type:
+                format: pandas.core.series.Series
+                type: string
+            required:
+            - x-type
+            type: object
+          - properties:
+              x-type:
+                format: pandas.core.frame.DataFrame
+                type: string
+            required:
+            - x-type
+            type: object
+          x-dimensions: &id002
+            location:
+              item_MinimumValue: 0
+              unit_type: spatial
+            time:
+              item_MinimumValue: 0
+              unit_type: temporal
+        capacityPerPlantUnit:
+          type: number
+          x-MinimumValue: 0
+        capacityVariableDomain:
+          type: string
+          x-ValueSet: &id003
+          - continuous
+          - discrete
+        dimension:
+          type: string
+          x-ValueSet: &id004
+          - 1dim
+          - 2dim
+        economicLifetime:
+          anyOf:
+          - type: number
+          - properties:
+              x-type:
+                format: pandas.core.series.Series
+                type: string
+            required:
+            - x-type
+            type: object
+          - properties:
+              x-type:
+                format: pandas.core.frame.DataFrame
+                type: string
+            required:
+            - x-type
+            type: object
+          x-MinimumValue: 0
+        esM:
+          properties: {}
+          type: object
+        hasCapacityVariable:
+          type: boolean
+        hasIsBuiltBinaryVariable:
+          type: boolean
+        interestRate:
+          anyOf:
+          - type: number
+          - properties:
+              x-type:
+                format: pandas.core.series.Series
+                type: string
+            required:
+            - x-type
+            type: object
+          - properties:
+              x-type:
+                format: pandas.core.frame.DataFrame
+                type: string
+            required:
+            - x-type
+            type: object
+        investIfBuilt:
+          anyOf:
+          - type: number
+          - properties:
+              x-type:
+                format: pandas.core.series.Series
+                type: string
+            required:
+            - x-type
+            type: object
+          - properties:
+              x-type:
+                format: pandas.core.frame.DataFrame
+                type: string
+            required:
+            - x-type
+            type: object
+        investPerCapacity:
+          anyOf:
+          - type: number
+          - properties:
+              x-type:
+                format: pandas.core.series.Series
+                type: string
+            required:
+            - x-type
+            type: object
+          - properties:
+              x-type:
+                format: pandas.core.frame.DataFrame
+                type: string
+            required:
+            - x-type
+            type: object
+        isBuiltFix:
+          anyOf:
+          - properties:
+              x-type:
+                format: pandas.core.series.Series
+                type: string
+            required:
+            - x-type
+            type: object
+          - properties:
+              x-type:
+                format: pandas.core.frame.DataFrame
+                type: string
+            required:
+            - x-type
+            type: object
+        linkedQuantityID:
+          type: string
+        locationalEligibility:
+          anyOf:
+          - properties:
+              x-type:
+                format: pandas.core.series.Series
+                type: string
+            required:
+            - x-type
+            type: object
+          - properties:
+              x-type:
+                format: pandas.core.frame.DataFrame
+                type: string
+            required:
+            - x-type
+            type: object
+          x-item_ValueSet: &id005
+          - 0
+          - 1
+        name:
+          type: string
+        opexIfBuilt:
+          anyOf:
+          - type: number
+          - properties:
+              x-type:
+                format: pandas.core.series.Series
+                type: string
+            required:
+            - x-type
+            type: object
+          - properties:
+              x-type:
+                format: pandas.core.frame.DataFrame
+                type: string
+            required:
+            - x-type
+            type: object
+          x-MinimumValue: 0
+        opexPerCapacity:
+          anyOf:
+          - type: number
+          - properties:
+              x-type:
+                format: pandas.core.series.Series
+                type: string
+            required:
+            - x-type
+            type: object
+          - properties:
+              x-type:
+                format: pandas.core.frame.DataFrame
+                type: string
+            required:
+            - x-type
+            type: object
+          x-MinimumValue: 0
+        partLoadMin:
+          anyOf:
+          - type: number
+          - additionalProperties:
+              type: number
+            type: object
+          x-MinimumValue: 0
+          x-max_value: 1
+        sharedPotentialID:
+          type: string
+        technicalLifetime:
+          anyOf:
+          - type: number
+          - properties:
+              x-type:
+                format: pandas.core.series.Series
+                type: string
+            required:
+            - x-type
+            type: object
+          - properties:
+              x-type:
+                format: pandas.core.frame.DataFrame
+                type: string
+            required:
+            - x-type
+            type: object
+          x-MinimumValue: 0
+        yearlyFullLoadHoursMax:
+          anyOf:
+          - type: number
+          - properties:
+              x-type:
+                format: pandas.core.series.Series
+                type: string
+            required:
+            - x-type
+            type: object
+          - properties:
+              x-type:
+                format: pandas.core.frame.DataFrame
+                type: string
+            required:
+            - x-type
+            type: object
+          x-MinimumValue: 0
+        yearlyFullLoadHoursMin:
+          anyOf:
+          - type: number
+          - properties:
+              x-type:
+                format: pandas.core.series.Series
+                type: string
+            required:
+            - x-type
+            type: object
+          - properties:
+              x-type:
+                format: pandas.core.frame.DataFrame
+                type: string
+            required:
+            - x-type
+            type: object
+          x-MinimumValue: 0
+      required:
+      - esM
+      - name
+      - dimension
+      - hasCapacityVariable
+      - capacityVariableDomain
+      - capacityPerPlantUnit
+      - hasIsBuiltBinaryVariable
+      - QPcostScale
+      type: object
+      x-VariableRole: input
+      x-functions:
+        addToEnergySystemModel:
+          properties:
+            esM:
+              properties: {}
+              type: object
+              x-VariableRole: input
+          required:
+          - esM
+          type: object
+          x-IsInterfaceFunction: true
+        getDataForTimeSeriesAggregation:
+          properties: {}
+          type: object
+        getTSAOutput:
+          properties:
+            data:
+              properties:
+                x-type:
+                  format: pandas.core.frame.DataFrame
+                  type: string
+              required:
+              - x-type
+              type: object
+              x-VariableRole: input
+            ip:
+              type: integer
+              x-VariableRole: input
+            rate:
+              properties:
+                x-type:
+                  format: pandas.core.frame.DataFrame
+                  type: string
+              required:
+              - x-type
+              type: object
+              x-VariableRole: input
+            rateName:
+              type: string
+              x-VariableRole: input
+            return:
+              properties:
+                x-type:
+                  format: pandas.core.frame.DataFrame
+                  type: string
+              required:
+              - x-type
+              type: object
+              x-VariableRole: output
+          required:
+          - rateName
+          - data
+          - ip
+          type: object
+          x-IsInterfaceFunction: true
+        prepareTSAInput:
+          properties:
+            data:
+              items:
+                $ref: '#/components/schemas/pandas.core.frame.DataFrame'
+              type: array
+              x-VariableRole: input
+            ip:
+              type: integer
+              x-VariableRole: input
+            rateFix:
+              properties:
+                x-type:
+                  format: pandas.core.frame.DataFrame
+                  type: string
+              required:
+              - x-type
+              type: object
+              x-VariableRole: input
+            rateMax:
+              properties:
+                x-type:
+                  format: pandas.core.frame.DataFrame
+                  type: string
+              required:
+              - x-type
+              type: object
+              x-VariableRole: input
+            rateName:
+              type: string
+              x-VariableRole: input
+            rateWeight:
+              type: number
+              x-MinimumValue: 0
+              x-VariableRole: input
+            return:
+              properties:
+                x-type:
+                  format: pandas.core.frame.DataFrame
+                  type: string
+              required:
+              - x-type
+              type: object
+              x-VariableRole: output
+            weightDict:
+              additionalProperties:
+                type: number
+              type: object
+              x-VariableRole: input
+          required:
+          - rateName
+          - rateWeight
+          - weightDict
+          - data
+          - ip
+          - return
+          type: object
+          x-IsInterfaceFunction: true
+        setAggregatedTimeSeriesData:
+          properties: {}
+          type: object
+        setTimeSeriesData:
+          properties: {}
+          type: object
+    EnergySystemModel:
+      properties:
+        balanceLimit:
+          anyOf:
+          - properties:
+              x-type:
+                format: pandas.core.series.Series
+                type: string
+            required:
+            - x-type
+            type: object
+          - properties:
+              x-type:
+                format: pandas.core.frame.DataFrame
+                type: string
+            required:
+            - x-type
+            type: object
+        commodities:
+          type: object
+        commodityUnitsDict:
+          additionalProperties:
+            type: string
+          type: object
+        costUnit:
+          type: string
+        hoursPerTimeStep:
+          type: number
+          x-min_value: 0
+        lengthUnit:
+          type: string
+        locations:
+          type: object
+        lowerBound:
+          type: boolean
+        numberOfInvestmentPeriods:
+          type: integer
+          x-min_value: 0
+        numberOfTimeSteps:
+          type: integer
+          x-min_value: 0
+        verboseLogLevel:
+          type: integer
+          x-possible_values:
+          - 0
+          - 1
+          - 2
+        yearsPerInvestmentPeriods:
+          type: integer
+      required:
+      - locations
+      - commodities
+      - commodityUnitsDict
+      - numberOfTimeSteps
+      - hoursPerTimeStep
+      - numberOfInvestmentPeriods
+      - yearsPerInvestmentPeriods
+      - costUnit
+      - lengthUnit
+      - verboseLogLevel
+      - balanceLimit
+      - lowerBound
+      type: object
+      x-functions:
+        add:
+          properties:
+            component:
+              description: The Component class includes the general methods and arguments
+                for the components which are add-able to
+              properties:
+                QPcostScale:
+                  anyOf:
+                  - type: number
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  x-MinimumValue: 0
+                bigM:
+                  type: number
+                  x-MinimumValue: 0
+                capacityFix:
+                  anyOf:
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                capacityMax:
+                  anyOf:
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  x-dimensions: *id001
+                capacityMin:
+                  anyOf:
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  x-dimensions: *id002
+                capacityPerPlantUnit:
+                  type: number
+                  x-MinimumValue: 0
+                capacityVariableDomain:
+                  type: string
+                  x-ValueSet: *id003
+                dimension:
+                  type: string
+                  x-ValueSet: *id004
+                economicLifetime:
+                  anyOf:
+                  - type: number
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  x-MinimumValue: 0
+                esM:
+                  properties: {}
+                  type: object
+                hasCapacityVariable:
+                  type: boolean
+                hasIsBuiltBinaryVariable:
+                  type: boolean
+                interestRate:
+                  anyOf:
+                  - type: number
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                investIfBuilt:
+                  anyOf:
+                  - type: number
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                investPerCapacity:
+                  anyOf:
+                  - type: number
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                isBuiltFix:
+                  anyOf:
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                linkedQuantityID:
+                  type: string
+                locationalEligibility:
+                  anyOf:
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  x-item_ValueSet: *id005
+                name:
+                  type: string
+                opexIfBuilt:
+                  anyOf:
+                  - type: number
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  x-MinimumValue: 0
+                opexPerCapacity:
+                  anyOf:
+                  - type: number
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  x-MinimumValue: 0
+                partLoadMin:
+                  anyOf:
+                  - type: number
+                  - additionalProperties:
+                      type: number
+                    type: object
+                  x-MinimumValue: 0
+                  x-max_value: 1
+                sharedPotentialID:
+                  type: string
+                technicalLifetime:
+                  anyOf:
+                  - type: number
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  x-MinimumValue: 0
+                yearlyFullLoadHoursMax:
+                  anyOf:
+                  - type: number
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  x-MinimumValue: 0
+                yearlyFullLoadHoursMin:
+                  anyOf:
+                  - type: number
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  x-MinimumValue: 0
+              required:
+              - esM
+              - name
+              - dimension
+              - hasCapacityVariable
+              - capacityVariableDomain
+              - capacityPerPlantUnit
+              - hasIsBuiltBinaryVariable
+              - QPcostScale
+              type: object
+              x-VariableRole: input
+              x-functions:
+                addToEnergySystemModel:
+                  properties:
+                    esM:
+                      properties: {}
+                      type: object
+                      x-VariableRole: input
+                  required:
+                  - esM
+                  type: object
+                  x-IsInterfaceFunction: true
+                getDataForTimeSeriesAggregation:
+                  properties: {}
+                  type: object
+                getTSAOutput:
+                  properties:
+                    data:
+                      properties:
+                        x-type:
+                          format: pandas.core.frame.DataFrame
+                          type: string
+                      required:
+                      - x-type
+                      type: object
+                      x-VariableRole: input
+                    ip:
+                      type: integer
+                      x-VariableRole: input
+                    rate:
+                      properties:
+                        x-type:
+                          format: pandas.core.frame.DataFrame
+                          type: string
+                      required:
+                      - x-type
+                      type: object
+                      x-VariableRole: input
+                    rateName:
+                      type: string
+                      x-VariableRole: input
+                    return:
+                      properties:
+                        x-type:
+                          format: pandas.core.frame.DataFrame
+                          type: string
+                      required:
+                      - x-type
+                      type: object
+                      x-VariableRole: output
+                  required:
+                  - rateName
+                  - data
+                  - ip
+                  type: object
+                  x-IsInterfaceFunction: true
+                prepareTSAInput:
+                  properties:
+                    data:
+                      items:
+                        $ref: '#/components/schemas/pandas.core.frame.DataFrame'
+                      type: array
+                      x-VariableRole: input
+                    ip:
+                      type: integer
+                      x-VariableRole: input
+                    rateFix:
+                      properties:
+                        x-type:
+                          format: pandas.core.frame.DataFrame
+                          type: string
+                      required:
+                      - x-type
+                      type: object
+                      x-VariableRole: input
+                    rateMax:
+                      properties:
+                        x-type:
+                          format: pandas.core.frame.DataFrame
+                          type: string
+                      required:
+                      - x-type
+                      type: object
+                      x-VariableRole: input
+                    rateName:
+                      type: string
+                      x-VariableRole: input
+                    rateWeight:
+                      type: number
+                      x-MinimumValue: 0
+                      x-VariableRole: input
+                    return:
+                      properties:
+                        x-type:
+                          format: pandas.core.frame.DataFrame
+                          type: string
+                      required:
+                      - x-type
+                      type: object
+                      x-VariableRole: output
+                    weightDict:
+                      additionalProperties:
+                        type: number
+                      type: object
+                      x-VariableRole: input
+                  required:
+                  - rateName
+                  - rateWeight
+                  - weightDict
+                  - data
+                  - ip
+                  - return
+                  type: object
+                  x-IsInterfaceFunction: true
+                setAggregatedTimeSeriesData:
+                  properties: {}
+                  type: object
+                setTimeSeriesData:
+                  properties: {}
+                  type: object
+          required:
+          - component
+          type: object
+          x-is_interface_function: true
+        aggregateSpatially:
+          properties:
+            aggregatedResultsPath:
+              type: string
+              x-VariableRole: input
+            grouping_mode:
+              type: string
+              x-VariableRole: input
+              x-possible_values:
+              - string_based
+              - distance_based
+              - parameter_based
+            n_groups:
+              type: integer
+              x-VariableRole: input
+              x-min_value: 0
+            return:
+              properties: {}
+              type: object
+            shapefile:
+              anyOf:
+              - type: string
+              - properties:
+                  x-type:
+                    format: pandas.core.frame.DataFrame
+                    type: string
+                required:
+                - x-type
+                type: object
+              x-VariableRole: input
+          required:
+          - shapefile
+          - grouping_mode
+          - return
+          type: object
+          x-is_interface_function: false
+        aggregateTemporally:
+          properties:
+            clusterMethod:
+              type: string
+              x-VariableRole: input
+              x-possible_values:
+              - averaging
+              - k_means
+              - exact k_medoid
+              - hierarchical
+            numberOfSegmentsPerPeriod:
+              type: integer
+              x-VariableRole: input
+              x-min_value: 0
+            numberOfTimeStepsPerPeriod:
+              type: integer
+              x-VariableRole: input
+              x-min_value: 0
+            numberOfTypicalPeriods:
+              type: integer
+              x-VariableRole: input
+              x-min_value: 0
+            segmentation:
+              type: boolean
+              x-VariableRole: input
+            sortValues:
+              type: boolean
+              x-VariableRole: input
+            storeTSAinstance:
+              type: boolean
+              x-VariableRole: input
+          required:
+          - numberOfTypicalPeriods
+          - numberOfTimeStepsPerPeriod
+          - segmentation
+          - numberOfSegmentsPerPeriod
+          - clusterMethod
+          - sortValues
+          - storeTSAinstance
+          type: object
+          x-is_interface_function: false
+        cluster:
+          properties: {}
+          type: object
+        declareBalanceLimitConstraint:
+          properties:
+            pyM:
+              properties:
+                x-type:
+                  format: pyomo.core.base.PyomoModel.ConcreteModel
+                  type: string
+              required:
+              - x-type
+              type: object
+              x-VariableRole: input
+            timeSeriesAggregation:
+              type: boolean
+              x-VariableRole: input
+          required:
+          - pyM
+          - timeSeriesAggregation
+          type: object
+          x-is_interface_function: false
+        declareCommodityBalanceConstraints:
+          properties:
+            pyM:
+              properties:
+                x-type:
+                  format: pyomo.core.base.PyomoModel.ConcreteModel
+                  type: string
+              required:
+              - x-type
+              type: object
+              x-VariableRole: input
+          required:
+          - pyM
+          type: object
+          x-is_interface_function: false
+        declareComponentLinkedQuantityConstraints:
+          properties:
+            pyM:
+              properties:
+                x-type:
+                  format: pyomo.core.base.PyomoModel.ConcreteModel
+                  type: string
+              required:
+              - x-type
+              type: object
+              x-VariableRole: input
+          required:
+          - pyM
+          type: object
+          x-is_interface_function: false
+        declareObjective:
+          properties:
+            pyM:
+              properties:
+                x-type:
+                  format: pyomo.core.base.PyomoModel.ConcreteModel
+                  type: string
+              required:
+              - x-type
+              type: object
+              x-VariableRole: input
+          required:
+          - pyM
+          type: object
+          x-is_interface_function: false
+        declareOptimizationProblem:
+          properties:
+            relaxIsBuiltBinary:
+              type: boolean
+              x-VariableRole: input
+            segmentation:
+              type: boolean
+              x-VariableRole: input
+            timeSeriesAggregation:
+              type: boolean
+              x-VariableRole: input
+          required:
+          - timeSeriesAggregation
+          - segmentation
+          - relaxIsBuiltBinary
+          type: object
+          x-is_interface_function: false
+        declareSharedPotentialConstraints:
+          properties:
+            pyM:
+              properties:
+                x-type:
+                  format: pyomo.core.base.PyomoModel.ConcreteModel
+                  type: string
+              required:
+              - x-type
+              type: object
+              x-VariableRole: input
+          required:
+          - pyM
+          type: object
+          x-is_interface_function: false
+        declareTimeSets:
+          properties:
+            pyM:
+              properties:
+                x-type:
+                  format: pyomo.core.base.PyomoModel.ConcreteModel
+                  type: string
+              required:
+              - x-type
+              type: object
+              x-VariableRole: input
+            segmentation:
+              type: boolean
+              x-VariableRole: input
+            timeSeriesAggregation:
+              type: boolean
+              x-VariableRole: input
+          required:
+          - pyM
+          - timeSeriesAggregation
+          - segmentation
+          type: object
+          x-is_interface_function: false
+        getComponent:
+          properties:
+            componentName:
+              type: string
+              x-VariableRole: input
+            return:
+              description: The Component class includes the general methods and arguments
+                for the components which are add-able to
+              properties:
+                QPcostScale:
+                  anyOf:
+                  - type: number
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  x-MinimumValue: 0
+                bigM:
+                  type: number
+                  x-MinimumValue: 0
+                capacityFix:
+                  anyOf:
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                capacityMax:
+                  anyOf:
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  x-dimensions: *id001
+                capacityMin:
+                  anyOf:
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  x-dimensions: *id002
+                capacityPerPlantUnit:
+                  type: number
+                  x-MinimumValue: 0
+                capacityVariableDomain:
+                  type: string
+                  x-ValueSet: *id003
+                dimension:
+                  type: string
+                  x-ValueSet: *id004
+                economicLifetime:
+                  anyOf:
+                  - type: number
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  x-MinimumValue: 0
+                esM:
+                  properties: {}
+                  type: object
+                hasCapacityVariable:
+                  type: boolean
+                hasIsBuiltBinaryVariable:
+                  type: boolean
+                interestRate:
+                  anyOf:
+                  - type: number
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                investIfBuilt:
+                  anyOf:
+                  - type: number
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                investPerCapacity:
+                  anyOf:
+                  - type: number
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                isBuiltFix:
+                  anyOf:
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                linkedQuantityID:
+                  type: string
+                locationalEligibility:
+                  anyOf:
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  x-item_ValueSet: *id005
+                name:
+                  type: string
+                opexIfBuilt:
+                  anyOf:
+                  - type: number
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  x-MinimumValue: 0
+                opexPerCapacity:
+                  anyOf:
+                  - type: number
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  x-MinimumValue: 0
+                partLoadMin:
+                  anyOf:
+                  - type: number
+                  - additionalProperties:
+                      type: number
+                    type: object
+                  x-MinimumValue: 0
+                  x-max_value: 1
+                sharedPotentialID:
+                  type: string
+                technicalLifetime:
+                  anyOf:
+                  - type: number
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  x-MinimumValue: 0
+                yearlyFullLoadHoursMax:
+                  anyOf:
+                  - type: number
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  x-MinimumValue: 0
+                yearlyFullLoadHoursMin:
+                  anyOf:
+                  - type: number
+                  - properties:
+                      x-type:
+                        format: pandas.core.series.Series
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  - properties:
+                      x-type:
+                        format: pandas.core.frame.DataFrame
+                        type: string
+                    required:
+                    - x-type
+                    type: object
+                  x-MinimumValue: 0
+              required:
+              - esM
+              - name
+              - dimension
+              - hasCapacityVariable
+              - capacityVariableDomain
+              - capacityPerPlantUnit
+              - hasIsBuiltBinaryVariable
+              - QPcostScale
+              type: object
+              x-VariableRole: input
+              x-functions:
+                addToEnergySystemModel:
+                  properties:
+                    esM:
+                      properties: {}
+                      type: object
+                      x-VariableRole: input
+                  required:
+                  - esM
+                  type: object
+                  x-IsInterfaceFunction: true
+                getDataForTimeSeriesAggregation:
+                  properties: {}
+                  type: object
+                getTSAOutput:
+                  properties:
+                    data:
+                      properties:
+                        x-type:
+                          format: pandas.core.frame.DataFrame
+                          type: string
+                      required:
+                      - x-type
+                      type: object
+                      x-VariableRole: input
+                    ip:
+                      type: integer
+                      x-VariableRole: input
+                    rate:
+                      properties:
+                        x-type:
+                          format: pandas.core.frame.DataFrame
+                          type: string
+                      required:
+                      - x-type
+                      type: object
+                      x-VariableRole: input
+                    rateName:
+                      type: string
+                      x-VariableRole: input
+                    return:
+                      properties:
+                        x-type:
+                          format: pandas.core.frame.DataFrame
+                          type: string
+                      required:
+                      - x-type
+                      type: object
+                      x-VariableRole: output
+                  required:
+                  - rateName
+                  - data
+                  - ip
+                  type: object
+                  x-IsInterfaceFunction: true
+                prepareTSAInput:
+                  properties:
+                    data:
+                      items:
+                        $ref: '#/components/schemas/pandas.core.frame.DataFrame'
+                      type: array
+                      x-VariableRole: input
+                    ip:
+                      type: integer
+                      x-VariableRole: input
+                    rateFix:
+                      properties:
+                        x-type:
+                          format: pandas.core.frame.DataFrame
+                          type: string
+                      required:
+                      - x-type
+                      type: object
+                      x-VariableRole: input
+                    rateMax:
+                      properties:
+                        x-type:
+                          format: pandas.core.frame.DataFrame
+                          type: string
+                      required:
+                      - x-type
+                      type: object
+                      x-VariableRole: input
+                    rateName:
+                      type: string
+                      x-VariableRole: input
+                    rateWeight:
+                      type: number
+                      x-MinimumValue: 0
+                      x-VariableRole: input
+                    return:
+                      properties:
+                        x-type:
+                          format: pandas.core.frame.DataFrame
+                          type: string
+                      required:
+                      - x-type
+                      type: object
+                      x-VariableRole: output
+                    weightDict:
+                      additionalProperties:
+                        type: number
+                      type: object
+                      x-VariableRole: input
+                  required:
+                  - rateName
+                  - rateWeight
+                  - weightDict
+                  - data
+                  - ip
+                  - return
+                  type: object
+                  x-IsInterfaceFunction: true
+                setAggregatedTimeSeriesData:
+                  properties: {}
+                  type: object
+                setTimeSeriesData:
+                  properties: {}
+                  type: object
+          required:
+          - componentName
+          - return
+          type: object
+          x-is_interface_function: false
+        getComponentAttribute:
+          properties:
+            attributeName:
+              type: string
+              x-VariableRole: input
+            componentName:
+              type: string
+              x-VariableRole: input
+            return:
+              properties: {}
+              type: object
+          required:
+          - componentName
+          - attributeName
+          - return
+          type: object
+          x-is_interface_function: false
+        getOptimizationSummary:
+          properties:
+            modelingClass:
+              type: string
+              x-VariableRole: input
+            outputLevel:
+              type: integer
+              x-VariableRole: input
+              x-possible_values:
+              - 0
+              - 1
+              - 2
+            return:
+              properties:
+                x-type:
+                  format: pandas.core.frame.DataFrame
+                  type: string
+              required:
+              - x-type
+              type: object
+          required:
+          - modelingClass
+          - outputLevel
+          - return
+          type: object
+          x-is_interface_function: false
+        optimize:
+          properties:
+            declaresOptimizationProblem:
+              type: boolean
+              x-VariableRole: input
+            logFileName:
+              type: string
+              x-VariableRole: input
+            optimizationSpecs:
+              type: string
+              x-VariableRole: input
+            relaxIsBuiltBinary:
+              type: boolean
+              x-VariableRole: input
+            solver:
+              type: string
+              x-VariableRole: input
+            threads:
+              type: integer
+              x-VariableRole: input
+              x-min_value: 0
+            timeLimit:
+              type: integer
+              x-VariableRole: input
+              x-min_value: 0
+            timeSeriesAggregation:
+              type: boolean
+              x-VariableRole: input
+            warmstart:
+              type: boolean
+              x-VariableRole: input
+          required:
+          - declaresOptimizationProblem
+          - relaxIsBuiltBinary
+          - timeSeriesAggregation
+          - logFileName
+          - threads
+          - solver
+          - optimizationSpecs
+          - warmstart
+          type: object
+          x-is_interface_function: false
+        removeComponent:
+          properties:
+            componentName:
+              type: string
+              x-VariableRole: input
+            return:
+              additionalProperties:
+                $ref: '#/components/schemas/Component'
+              type: object
+            track:
+              type: boolean
+              x-VariableRole: input
+          required:
+          - componentName
+          - track
+          - return
+          type: object
+          x-is_interface_function: true
+    plotOperation:
+      description: ''
+      properties:
+        color:
+          type: string
+          x-VariableRole: input
+        compName:
+          type: string
+          x-VariableRole: input
+        dpi:
+          type: integer
+          x-MinimumValue: '0'
+          x-VariableRole: input
+        esM:
+          properties: {}
+          type: object
+          x-VariableRole: input
+        figsize:
+          tupleTypes:
+          - type: number
+          - type: number
+          x-VariableRole: input
+        fileName:
+          type: string
+        fontsize:
+          type: number
+          x-VariableRole: input
+        loc:
+          type: string
+          x-VariableRole: input
+        locTrans:
+          type: string
+          x-VariableRole: input
+        save:
+          type: boolean
+          x-VariableRole: input
+        tMax:
+          type: integer
+          x-VariableRole: input
+        tMin:
+          type: integer
+          x-VariableRole: input
+        variableName:
+          type: string
+          x-VariableRole: input
+        xlabel:
+          type: string
+          x-VariableRole: input
+        ylabel:
+          type: string
+          x-VariableRole: input
+      required:
+      - esM
+      - compName
+      - loc
+      - tMin
+      - tMax
+      - variableName
+      - xlabel
+      - ylabel
+      - figsize
+      - color
+      - fontsize
+      - save
+      - fileName
+      - dpi
+      type: object
+      x-is_interface_function: true
+    readEnergySystemModelFromExcel:
+      description: ''
+      properties:
+        engine:
+          type: string
+          x-VariableRole: input
+          x-possible_values:
+          - openpyxl
+          - xlrd
+          - odf
+        fileName:
+          type: string
+          x-VariableRole: input
+          x-possible_extensions:
+          - xlsx
+          - xls
+          - odf
+          - ods
+          - odt
+        return:
+          properties:
+            x-type:
+              format: __main__.object
+              type: string
+          required:
+          - x-type
+          type: object
+          x-VariableRole: output
+      required:
+      - return
+      - fileName
+      - engine
+      type: object
+      x-is_interface_function: true
+    readNetCDFtoEnergySystemModel:
+      description: ''
+      properties:
+        filePath:
+          type: string
+          x-VariableRole: input
+          x-possible_extensions:
+          - nc
+        groupPrefix:
+          type: string
+          x-VariableRole: input
+        return:
+          properties:
+            x-type:
+              format: __main__.object
+              type: string
+          required:
+          - x-type
+          type: object
+          x-VariableRole: output
+      required:
+      - return
+      - filePath
+      type: object
+      x-is_interface_function: true
